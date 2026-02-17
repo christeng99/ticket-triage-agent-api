@@ -51,7 +51,25 @@ Description: {ticket.Description}
             string summary = doct.RootElement.GetProperty("summary").GetString() ?? "";
             string suggestedReply = doct.RootElement.GetProperty("suggested_reply").GetString() ?? "";
 
-            return new TriageResult(category, priority, summary, suggestedReply);
+            // Determine if human approval is required
+            bool requiresHumanApproval = DetermineIfHumanApprovalRequired(category, priority);
+
+            return new TriageResult(category, priority, summary, suggestedReply, requiresHumanApproval);
+        }
+
+        private bool DetermineIfHumanApprovalRequired(string category, string priority)
+        {
+            // Sensitive categories always require human approval
+            bool isSensitiveCategory = !string.IsNullOrWhiteSpace(category) &&
+                (category.Contains("breach", StringComparison.OrdinalIgnoreCase) ||
+                 category.Contains("unauthorized", StringComparison.OrdinalIgnoreCase) ||
+                 category.Contains("security", StringComparison.OrdinalIgnoreCase));
+
+            if (isSensitiveCategory)
+                return true;
+
+            // Urgent priority requires human approval
+            return priority.Equals("Urgent", StringComparison.OrdinalIgnoreCase);
         }
     }
 }

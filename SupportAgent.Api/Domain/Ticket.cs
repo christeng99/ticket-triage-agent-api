@@ -6,7 +6,8 @@
         Queued = 1,
         Triaging = 2,
         Triaged = 3,
-        Failed = 4
+        Failed = 4,
+        AwaitingHuman = 5
     }
     public sealed class Ticket
     {
@@ -23,5 +24,7 @@
         public DateTimeOffset CreatedAt { get; set; } = DateTimeOffset.UtcNow;
         public DateTimeOffset? TriagedAt { get; set; }
         public string? LastError { get; set; }
+        public double? Confidence { get; set; }
+        public string? AgentNotes { get; set; }
     }
 }
