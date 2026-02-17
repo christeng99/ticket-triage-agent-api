@@ -50,7 +50,7 @@ namespace SupportAgent.Api.Orchestration
                     ticket.Priority = result.Priority;
                     ticket.Summary = result.Summary;
                     ticket.SuggestedReply = result.SuggestedReply;
-                    ticket.Status = TicketStatus.Triaged;
+                    ticket.Status = result.RequiresHumanApproval ? TicketStatus.AwaitingHuman : TicketStatus.Triaged;
                     ticket.TriagedAt = DateTimeOffset.UtcNow;
 
                     await db.SaveChangesAsync();

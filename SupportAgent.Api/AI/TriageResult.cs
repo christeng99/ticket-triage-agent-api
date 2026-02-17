@@ -4,6 +4,7 @@
         string Category,
         string Priority,
         string Summary,
-        string SuggestedReply
+        string SuggestedReply,
+        bool RequiresHumanApproval = false
     );
 }
